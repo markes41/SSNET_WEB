@@ -1,0 +1,94 @@
+﻿@using SSNET_DataModel.Models
+@model List<Productos>
+@{
+    Layout = "Header";
+    decimal Total = 0, SubTotal = 0, Impuestos = 0;
+    @foreach (var item in Model) Total += item.Precio * item.Cantidad;
+    Impuestos = (Total * 21) / 100;
+    SubTotal = Total * 1.21m;
+}
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.2/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="~/css/carrito.css">
+
+<div class="cart-buy">
+    <div class="shopping-cart">
+        <!-- Title -->
+        <div class="title">
+            Carrito de Compras
+        </div>
+        @if (Model.Count() > 0)
+        {
+            @foreach (var Producto in Model)
+            {
+                <div class="item product-@Producto.Id">
+                    <div class="buttons">
+                        <span class="delete-btn" onclick="remove_from_cart(@Producto.Id)"></span>
+                        <span class="like-btn"></span>
+                    </div>
+
+                    <div class="image">
+                        <img class="img-product" src="@Producto.Imagen" alt="" />
+                    </div>
+
+                    <div class="description text-wrap">
+                        <span>@Producto.Titulo</span>
+                    </div>
+
+                    <div class="quantity">
+                        <button class="minus-btn" onclick="remove_item(@Producto.Id)" type="button" name="button">
+                            <img src="~/images/minus.svg" alt="" />
+                        </button>
+                        <input type="text" name="name" value="@Producto.Cantidad" class="cantidad-@Producto.Id">
+                        <button class="plus-btn" onclick="add_item(@Producto.Id)" type="button" name="button">
+                            <img src="~/images/plus.svg" alt="" />
+                        </button>
+                    </div>
+
+                    <div class="total-price">$@Producto.Precio</div>
+                </div>
+            }
+
+
+
+        }
+        else
+        {
+            <div class="no-items">
+                <p>No hay productos en el carrito.</p>
+                <button class="btn-cart btn btn-primary" onclick="window.location.href = '@Url.Action("Index", "Main")'">Volver a Comprar</button>
+            </div>
+        }
+    </div>
+
+    <div class="check-out">
+        <div class="title">
+            Resumen
+        </div>
+        <div class="summary-section">
+            <p>Total: </p>
+            <p class="total">$@Total</p>
+        </div>
+        <div class="summary-section">
+            <p>Impuestos: </p>
+            <p class="impuestos">$@Impuestos</p>
+        </div>
+        <div class="summary-section">
+            <p>Subtotal: </p>
+            <p class="subtotal">$@SubTotal</p>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInput1" class="bmd-label-floating">¿Tenés un cupón de descuento?</label>
+            <input type="email" class="form-control" id="exampleInput1">
+            <span class="bmd-help">Al introducir los 6 dígitos, se recalculará el subtotal.</span>
+        </div>
+
+        <button class="btn-cart btn btn-primary" onclick="window.location.href = '@Url.Action("Pagar", "Checkout")'" style="margin: 7.5rem auto 0 auto;">Pagar</button>
+
+    </div>
+</div>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>

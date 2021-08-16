@@ -1,0 +1,37 @@
+﻿@using SSNET_DataModel.Models
+@model List<Productos>
+@{
+    Layout = "Header";
+}
+
+<div class="row">
+    @foreach (var Producto in Model)
+    {
+
+        <div id="make-3D-space" class="col-md-4">
+            <div class="product-card">
+                <div class="product-front">
+                    <div class="shadow"></div>
+
+                    <div class="text-center" style="display: flex; justify-content: center; height: 200px;"><img src="@Producto.Imagen" alt="" /></div>
+                    <div class="image_overlay"></div>
+                    <div class="view_details">View details</div>
+
+                    <div class="stats">
+                        <div class="stats-container">
+                            <span class="product_price">$@Producto.Precio</span>
+                            <span class="product_name">@Producto.Titulo</span>
+                            <p onclick="add_item(@Producto.Id)"><i class="fas fa-shopping-cart"></i>Agregar al Carrito</p>
+
+                            <div class="product-options text-wrap">
+                                <strong>DESCRIPCIÓN</strong>
+                                <span>@Producto.Descripcion</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>

@@ -1,0 +1,62 @@
+﻿@*@model FileUpload
+<style>
+
+    .hiddenFileInput > input {
+        height: 100%;
+        width: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .hiddenFileInput {
+        width: 175px;
+        height: 135px;
+        display: inline-block;
+        overflow: hidden;
+        background: center center no-repeat;
+        background-size: 50% 50%;
+        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA2Mi44IDU3LjYiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDYyLjggNTcuNjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNFQ0VGRjE7fQoJLnN0MXtmaWxsOiNGRkMxMDc7fQoJLnN0MntmaWxsOiMzNkIzRkY7fQoJLnN0M3tmaWxsOiMwMDlCRkY7fQo8L3N0eWxlPgo8cGF0aCBjbGFzcz0ic3QwIiBkPSJNMTYuMyw0NS44Yy00LjIsMC03LjktMi43LTkuMy02LjdsMC0wLjNjLTAuMy0wLjktMC40LTEuOS0wLjUtMi44VjE4LjFMMC4yLDM5LjNjLTAuOCwzLjEsMSw2LjMsNC4yLDcuMgoJbDQwLjUsMTAuOGMwLjUsMC4xLDEsMC4yLDEuNSwwLjJjMi42LDAsNS0xLjcsNS43LTQuM2wyLjQtNy41TDE2LjMsNDUuOHoiLz4KPHBhdGggY2xhc3M9InN0MCIgZD0iTTYyLjgsNS45VjM2YzAsMy4yLTIuNiw1LjktNS45LDUuOUgxNi4zYy0wLjMsMC0wLjUsMC0wLjgtMC4xYy0yLjgtMC4zLTQuOS0yLjYtNS4xLTUuNGMwLTAuMiwwLTAuMywwLTAuNXYtMzAKCUMxMC40LDIuNywxMywwLDE2LjMsMGg0MC41QzYwLjEsMCw2Mi44LDIuNiw2Mi44LDUuOXoiLz4KPHBhdGggY2xhc3M9InN0MSIgZD0iTTI4LjgsMTMuMWMwLDIuOS0yLjMsNS4yLTUuMiw1LjJzLTUuMi0yLjMtNS4yLTUuMnMyLjMtNS4yLDUuMi01LjJsMCwwQzI2LjQsNy44LDI4LjgsMTAuMiwyOC44LDEzLjF6Ii8+CjxwYXRoIGNsYXNzPSJzdDIiIGQ9Ik02Mi44LDI4LjZWMzZjMCwzLjItMi42LDUuOS01LjksNS45SDE2LjNjLTAuMywwLTAuNSwwLTAuOC0wLjFsMjYuOS0yNi45YzEuOC0xLjgsNC43LTEuOCw2LjUsMEw2Mi44LDI4LjZ6Ii8+CjxwYXRoIGNsYXNzPSJzdDMiIGQ9Ik00Ny4yLDQxLjlIMTYuNGMtMC4zLDAtMC41LDAtMC44LTAuMWMtMi44LTAuMy00LjktMi42LTUuMS01LjRMMjIuOSwyNGMxLjgtMS44LDQuNy0xLjgsNi41LDBMNDcuMiw0MS45eiIvPgo8L3N2Zz4K");
+    }
+
+    .input-container {
+        border: 3px;
+        border-style: dashed;
+        border-color: #bdcddd;
+        transition: linear .3s;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+
+    .input-container:hover{
+        background-color: #e6f1ff;
+    }
+
+    .form-upload{
+        padding: 1rem;
+    }
+
+    .btn-upload-img{
+        margin: 1rem 0 0 0;
+        border-radius: 15px;
+        width: 50%;
+    }
+
+    .input-container > label {
+        font-weight: 500;
+        color: #215384;
+        margin-bottom: 10px;
+    }
+</style>
+
+@using (Html.BeginForm("UploadProfilePicture", "File", FormMethod.Post, new { enctype = "multipart/form-data", @class = "text-center form-upload" }))
+{
+    <div class="input-container">
+        <span class="hiddenFileInput col-12">
+            @Html.TextBoxFor(m => m.File, new { type = "file", @id = "", @class = "file-upload" })
+        </span>
+        <label class="col-12">Arrastra tu imagen aquí o <span style="color:#117efc">búscala</span>.</label>
+    </div>
+    
+
+    <button class="btn btn-primary btn-upload-img" type="submit">Subir imagen</button>
+}*@

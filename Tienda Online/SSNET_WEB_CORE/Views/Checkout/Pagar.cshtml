@@ -1,0 +1,187 @@
+﻿@model PaymentViewModel
+@{
+    Layout = "Header";
+}
+
+<link rel="stylesheet" href="~/css/carrito.css">
+<div class="cart-buy">
+    <div class="payment-box">
+        <div class="title d-flex justify-content-between">
+            <p>Compra #43456</p>
+            <p>Total: $46.599,00</p>
+        </div>
+        <form id="form-checkout" class="row">
+            <div class="form-tarjeta">
+                <!--Número de tarjeta-->
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">Número de la tarjeta</label>
+                    <input type="text" name="cardNumber" class="form-control" id="form-checkout__cardNumber" />
+                </div>
+
+                <div class="d-flex">
+                    <!--Mes Vencimiento-->
+                    <div class="form-group" style="margin-right: 5px;">
+                        <label for="exampleInput1" class="bmd-label-floating">Mes de Vencimiento</label>
+                        <input type="text" name="cardExpirationMonth" class="form-control" id="form-checkout__cardExpirationMonth" />
+                    </div>
+                    <div class="form-group bmd-label-floating" style="margin-right: 5px;">
+                        <span>/</span>
+                    </div>
+                    <!--Año Vencimiento-->
+                    <div class="form-group" style="margin-left: 5px;">
+                        <label for="exampleInput1" class="bmd-label-floating">Año de Vencimiento</label>
+                        <input type="text" name="cardExpirationYear" class="form-control" id="form-checkout__cardExpirationYear" />
+                    </div>
+                </div>
+
+                <!--Titular Tarjeta-->
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">Titular de la tarjeta</label>
+                    <input type="text" name="cardholderName" class="form-control" id="form-checkout__cardholderName" />
+                </div>
+
+                <div class="d-flex">
+                    <!--Codigo Seguridad-->
+                    <div class="form-group">
+                        <label for="exampleInput1" class="bmd-label-floating">Código de Seguridad</label>
+                        <input type="text" name="securityCode" class="form-control" id="form-checkout__securityCode" style="margin-right: 5px;"/>
+                    </div>
+
+                    <!--issuer-->
+                    <div class="form-group">
+                        <label for="exampleInput1" class="bmd-label-floating"></label>
+                        <select name="issuer" class="form-control" id="form-checkout__issuer" style="height: 39px; margin-left: 5px;"></select>
+                    </div>
+                </div>
+
+                <!--Cuotas-->
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating"></label>
+                    <select name="installments" class="form-control" id="form-checkout__installments"></select>
+                </div>
+            </div>
+
+            <div class="form-personales ">
+                <!--Email Titular-->
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">Email</label>
+                    <input type="email" name="cardholderEmail" class="form-control" id="form-checkout__cardholderEmail" />
+                </div>
+
+                <!--Tipo de Documento-->
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating"></label>
+                    <select name="identificationType" class="form-control" id="form-checkout__identificationType"></select>
+                </div>
+
+                <!--Número de Documento-->
+                <div class="form-group">
+                    <label for="exampleInput1" class="bmd-label-floating">Número de Documento</label>
+                    <input name="identificationNumber" class="form-control" id="form-checkout__identificationNumber" />
+                </div>
+            </div>
+            <button class="btn-cart btn btn-primary" type="submit" id="form-checkout__submit" style="width: 40% !important; margin: 0 auto;">Pagar</button>
+        </form>
+    </div>
+</div>
+
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <script>
+    const mp = new MercadoPago('TEST-32b37b18-9d90-416f-8eb8-292b3c0647b8');
+    const cardForm = mp.cardForm({
+        amount: "100.5",
+        autoMount: true,
+        form: {
+            id: "form-checkout",
+            cardholderName: {
+                id: "form-checkout__cardholderName",
+                placeholder: "",
+            },
+            cardholderEmail: {
+                id: "form-checkout__cardholderEmail",
+                placeholder: "",
+            },
+            cardNumber: {
+                id: "form-checkout__cardNumber",
+                placeholder: "",
+            },
+            cardExpirationMonth: {
+                id: "form-checkout__cardExpirationMonth",
+                placeholder: "",
+            },
+            cardExpirationYear: {
+                id: "form-checkout__cardExpirationYear",
+                placeholder: "",
+            },
+            securityCode: {
+                id: "form-checkout__securityCode",
+                placeholder: "",
+            },
+            installments: {
+                id: "form-checkout__installments",
+                placeholder: "Cuotas",
+            },
+            identificationType: {
+                id: "form-checkout__identificationType",
+                placeholder: "",
+            },
+            identificationNumber: {
+                id: "form-checkout__identificationNumber",
+                placeholder: "",
+            },
+            issuer: {
+                id: "form-checkout__issuer",
+                placeholder: "Banco emisor",
+            },
+        },
+        callbacks: {
+            onFormMounted: error => {
+                if (error) return console.warn("Form Mounted handling error: ", error);
+            },
+            onSubmit: event => {
+                event.preventDefault();
+
+                const {
+                    PaymentMethodId: payment_method_id,
+                    issuerId: issuer_id,
+                    cardholderEmail: email,
+                    amount,
+                    token,
+                    installments,
+                    identificationNumber,
+                    identificationType,
+                } = cardForm.getCardFormData();
+
+                var payment = {
+                    PaymentMethodId: payment_method_id,
+                    TransactionAmount: Number(amount),
+                    Installments: Number(installments),
+                    Description: "Descripción del producto",
+                    Email: email,
+                    Token: token,
+                    Tipo_Doc: identificationType,
+                    Nro_Doc: identificationNumber,
+                    Banco_Emisor: $('#form-checkout__issuer').text(),
+                };
+
+                $.ajax({
+                    url: '@Url.Action("ProcesarPago", "Checkout", new { Area = "" })',
+                    type: 'POST',
+                    dataType: "json",
+                    //contentType: "application/json; charset=utf-8",
+                    data: { payment_receive: payment},
+                    error: function (data) {
+                        ShowErrorAlert('¡Error!', 'Ha ocurrido un error procesando tu pago. Vuelve a intentarlo.', '');
+                    },
+                    success: function (data) {
+                        if(data.Status = "approved")
+                            ShowSuccesAlert('¡Bien!', 'Se ha procesado tu pago.', '', false);
+                        else
+                            ShowErrorAlert('¡Error!', 'Ha ocurrido un error procesando tu pago. Vuelve a intentarlo.', '');
+                    }
+                });
+            },
+        },
+    });
+    </script>

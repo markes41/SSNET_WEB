@@ -1,0 +1,73 @@
+﻿body {
+    margin: 0;
+    background-color: #ededed;
+}
+
+body p {
+    margin: 0;
+}
+
+.login {
+    width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 0;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.login img{
+    width: 200px;
+    margin-bottom: 1rem;
+}
+
+.background-login {
+    background-image: url("../images/background-login.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+}
+
+.btn-login {
+    margin-top: 5%;
+    width: 65%;
+    border-radius: 20px;
+    background-color: #00b789 !important;
+    color: #fff;
+    outline: none;
+}
+
+.btn-login:hover{
+    color: #fff;
+    background-color: #01a078;
+    outline: none;
+}
+
+.forgot-password {
+    cursor: pointer;
+    color: #0358b3;
+}
+
+input {
+    outline: none;
+    border-radius: 15px;
+    border: none;
+    padding: 6px;
+    width: 100%;
+    background-color: rgba(235,240,252,255);
+    margin: 1rem 0;
+}
+
+#profile-img{
+    cursor: pointer;
+}
