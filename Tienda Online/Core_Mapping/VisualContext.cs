@@ -14,7 +14,7 @@ namespace SSNET_DataModel
     public class VisualContext : DbContext
     {
         public VisualContext()
-            : base("Server=DESKTOP-VCVN96I;Database=SSNET_WEB;User=sa;Password=sqlcoop;MultipleActiveResultSets=true;Persist Security Info=True;")
+            : base("Data Source=DESKTOP-VCVN96I;database=SSNET_WEB;user=sa;password=sqlcoop;persistsecurityinfo=true;language=spanish")
         {
         }
 

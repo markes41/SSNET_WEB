@@ -30,7 +30,8 @@ function ShowSuccesAlert(msg_title, msg_body, msg_footer, show_buton) {
 }
 
 function add_item(id_modelo) {
-    ShowWaitAlert('Por favor espere...', 'Agregando objeto a carrito');
+    $('.load-' + id_modelo).removeClass('d-none');
+    $('.cart-' + id_modelo).addClass('d-none');
     $.ajax({
         url: '/Main/AgregarProductoToCarrito?Id_Model=' + id_modelo,
         type: 'POST',
@@ -42,10 +43,15 @@ function add_item(id_modelo) {
         success: function (data) {
             var cant_act = parseInt($('.cantidad-' + id_modelo).val());
             $('.cantidad-' + id_modelo).val(cant_act + 1);
-            $('.total').text("$"+data.total);
+            $('.total').text("$" + data.total);
+            $('.impuestos').text("$"+ (data.total * 21) / 100)
+            $('.subtotal').text("$"+ data.total * 1.21)
+            $('.load-' + id_modelo).addClass('d-none');
+            $('.success-' + id_modelo).removeClass('d-none');
+            $('.success-' + id_modelo).addClass('d-flex');
         }
     });
-    swal.close();
+    
 }
 
 function remove_item(id_modelo) {
@@ -82,6 +88,11 @@ function remove_from_cart(id_item) {
         success: function (data) {
             $('.product-' + id_item).hide(750);
             $('.product-' + id_item).remove();
+            $('.empty-cart').html(`<div class= "no-items">`+
+                `<p>No hay productos en el carrito.</p>`+
+                `<button class="btn-cart btn btn-primary" onclick="window.location.href = '/Main/Index'" > Volver a Comprar</button >`+
+                `</div >`);
+            $('.check-out').hide(750);
         }
     });
     swal.close();

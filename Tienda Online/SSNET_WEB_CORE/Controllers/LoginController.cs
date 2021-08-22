@@ -44,7 +44,19 @@ namespace SSNET_WEB_CORE.Controllers
             ModelState.AddModelError("", mg.ErrorMessage);
             return View();
         }
-        
+
+        public IActionResult Logout()
+        {
+            try
+            {
+                _session.RemoveUser();
+                return RedirectToAction("Login", "Login");
+            }catch(Exception ex)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+        }
+
         public IActionResult RestorePassword()
         {
             return View();

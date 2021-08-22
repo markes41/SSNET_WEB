@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -64,6 +65,25 @@ namespace SSNET_DataModel.Manager
             catch(Exception ex)
             {
                 return false;
+            }
+        }
+
+        public string ConvertFileToBase64(IFormFile FileModel)
+        {
+            try
+            {
+                if (FileModel.Length > 0)
+                {
+                    var ms = new MemoryStream();
+                    FileModel.CopyTo(ms);
+                    var fileByte = ms.ToArray();
+                    return Convert.ToBase64String(fileByte);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
         #endregion

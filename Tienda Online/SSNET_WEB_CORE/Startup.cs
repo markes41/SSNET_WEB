@@ -29,6 +29,7 @@ namespace SSNET_WEB_CORE
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddControllers();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

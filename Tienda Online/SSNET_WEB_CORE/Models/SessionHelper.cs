@@ -31,9 +31,12 @@ namespace SSNET_WEB_CORE.Models
         {
             _contextAccessor.HttpContext.Session.Set<Usuarios>("UserSession", User);
         }
+
+        public void RemoveUser()
+        {
+            _contextAccessor.HttpContext.Session.Remove("UserSession");
+        }
         #endregion
     }
 }
 
-
-//HttpContext.Session.Remove("UserSession");

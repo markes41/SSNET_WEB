@@ -27,6 +27,7 @@ namespace SSNET_DataModel.Mapping
             this.Property(t => t.Precio).HasColumnName("Precio");
             this.Property(t => t.Descripcion).HasColumnName("Descripcion");
             this.Property(t => t.Imagen).HasColumnName("Imagen");
+            this.Ignore(m => m.ImageToUpload);
         }
     }
 }

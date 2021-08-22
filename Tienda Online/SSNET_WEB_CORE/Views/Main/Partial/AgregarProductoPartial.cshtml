@@ -1,0 +1,20 @@
+﻿@model Productos
+
+@using (Html.BeginForm("UploadProduct", "File", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-product" }))
+{
+    @Html.TextBoxFor(m => m.ImageToUpload, new { type = "file" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Titulo, "Nombre Producto", new { @class = "bmd-label-floating" })
+        @Html.EditorFor(m => m.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Precio, "Precio",new { @class = "bmd-label-floating" })
+        @Html.EditorFor(m => m.Precio, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Descripcion, "Descripcion", new { @class = "bmd-label-floating" })
+        @Html.EditorFor(m => m.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+}

@@ -1,5 +1,4 @@
-﻿@model PaymentViewModel
-@{
+﻿@{
     Layout = "Header";
 }
 
@@ -8,7 +7,7 @@
     <div class="payment-box">
         <div class="title d-flex justify-content-between">
             <p>Compra #43456</p>
-            <p>Total: $46.599,00</p>
+            <p>Total: $@ViewBag.Total</p>
         </div>
         <form id="form-checkout" class="row">
             <div class="form-tarjeta">
@@ -90,7 +89,7 @@
     <script>
     const mp = new MercadoPago('TEST-32b37b18-9d90-416f-8eb8-292b3c0647b8');
     const cardForm = mp.cardForm({
-        amount: "100.5",
+        amount: "@ViewBag.Total",
         autoMount: true,
         form: {
             id: "form-checkout",

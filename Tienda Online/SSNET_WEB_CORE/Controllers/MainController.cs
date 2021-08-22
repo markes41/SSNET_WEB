@@ -27,14 +27,19 @@ namespace SSNET_WEB_CORE.Controllers
         {
             _session = session;
             User = _session.GetUsuario();
-            MercadoPagoConfig.AccessToken = "TEST-7649060484905600-080102-d24147871cf374235876a13e11fdbb3a-131630212";
         }
         #endregion
 
         #region Vistas
         public IActionResult Index()
         {
-            if (User != null) return View(mg.GetProductosList());
+            if(User != null)
+            {
+                var ListadoProductos = User.Productos_Carrito.Select(m => m.Id).ToList();
+                var ListModel = mg.GetProductosList().Where(m => !ListadoProductos.Contains(m.Id)).ToList();
+                if (ListModel.Count() > 0) return View(ListModel);
+                else return View(mg.GetProductosList());
+            }
             return RedirectToAction("Login", "Login");
         }
 

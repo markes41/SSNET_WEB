@@ -15,9 +15,7 @@ namespace SSNET_WEB_CORE.Models
 
         public static Usuarios Get<Usuarios>(this ISession session, string key)
         {
-            var value = session.GetString(key);
-            //var test = JsonSerializer.Deserialize<Usuarios>(value);
-            return value == null ? default : JsonSerializer.Deserialize<Usuarios>(value);
+            return session.GetString(key) == null ? default : JsonSerializer.Deserialize<Usuarios>(session.GetString(key));
         }
     }
 

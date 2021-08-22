@@ -16,48 +16,25 @@ namespace SSNET_WEB_CORE.Controllers
 {
     public class FileController : Controller
     {
-        public IWebHostEnvironment _webHostEnvironment;
-        public Usuarios_Manager mg = new Usuarios_Manager(ProxyCreationEnabled: false);
-        public FileController(IWebHostEnvironment webHostEnvironment)
+        public Productos_Manager mg = new Productos_Manager(ProxyCreationEnabled: false);
+        private readonly SessionHelper _session;
+        private Usuarios User = new Usuarios();
+        public FileController(SessionHelper session)
         {
-            _webHostEnvironment = webHostEnvironment;
+            _session = session;
+            User = _session.GetUsuario();
         }
 
         [HttpPost]
-        public void UploadProfilePicture([FromForm] FileUpload FileModel)
+        public void UploadProduct(Productos Model)
         {
             try
             {
-                var User = HttpContext.Session.Get<Usuarios>("UserSession");
-                User.ProfilePicture = ConvertImageToBase64(FileModel);
-                mg.Save(User);
+                Model.Imagen = mg.ConvertFileToBase64(Model.ImageToUpload);
+                mg.Save(Model, Model.Id == 0);
             }catch(Exception ex)
             {
             }
-        }
-
-        public string ConvertImageToBase64(FileUpload FileModel)
-        {
-            try
-            {
-                if (FileModel.File.Length > 0)
-                {
-                    var ms = new MemoryStream();
-                    FileModel.File.CopyTo(ms);
-                    var fileByte = ms.ToArray();
-                    return Convert.ToBase64String(fileByte);
-                }
-                return null;
-            }
-            catch(Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public class FileUpload
-        {
-            public IFormFile File { get; set; }
         }
     }
 }

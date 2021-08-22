@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="image">
-                        <img class="img-product" src="@Producto.Imagen" alt="" />
+                        <img class="img-product" src="data:image/png;base64,@Producto.Imagen" alt="" />
                     </div>
 
                     <div class="description text-wrap">
@@ -61,34 +61,35 @@
                 <button class="btn-cart btn btn-primary" onclick="window.location.href = '@Url.Action("Index", "Main")'">Volver a Comprar</button>
             </div>
         }
+        <div class="empty-cart"></div>
     </div>
+    @if (Model.Count() > 0)
+    {
+        <div class="check-out">
+            <div class="title">
+                Resumen
+            </div>
+            <div class="summary-section">
+                <p>Total: </p>
+                <p class="total">$@Total</p>
+            </div>
+            <div class="summary-section">
+                <p>Impuestos: </p>
+                <p class="impuestos">$@Impuestos</p>
+            </div>
+            <div class="summary-section">
+                <p>Subtotal: </p>
+                <p class="subtotal">$@SubTotal</p>
+            </div>
 
-    <div class="check-out">
-        <div class="title">
-            Resumen
+            <div class="form-group">
+                <label for="exampleInput1" class="bmd-label-floating">¿Tenés un cupón de descuento?</label>
+                <input type="email" class="form-control" id="exampleInput1">
+                <span class="bmd-help">Al introducir los 6 dígitos, se recalculará el subtotal.</span>
+            </div>
+            <button class="btn-cart btn btn-primary" onclick="window.location.href = '@Url.Action("Pagar", "Checkout")'" style="margin: 7.5rem auto 1rem auto;">Pagar</button>
         </div>
-        <div class="summary-section">
-            <p>Total: </p>
-            <p class="total">$@Total</p>
-        </div>
-        <div class="summary-section">
-            <p>Impuestos: </p>
-            <p class="impuestos">$@Impuestos</p>
-        </div>
-        <div class="summary-section">
-            <p>Subtotal: </p>
-            <p class="subtotal">$@SubTotal</p>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInput1" class="bmd-label-floating">¿Tenés un cupón de descuento?</label>
-            <input type="email" class="form-control" id="exampleInput1">
-            <span class="bmd-help">Al introducir los 6 dígitos, se recalculará el subtotal.</span>
-        </div>
-
-        <button class="btn-cart btn btn-primary" onclick="window.location.href = '@Url.Action("Pagar", "Checkout")'" style="margin: 7.5rem auto 0 auto;">Pagar</button>
-
-    </div>
+    }
 </div>
 
 <script src="https://sdk.mercadopago.com/js/v2"></script>

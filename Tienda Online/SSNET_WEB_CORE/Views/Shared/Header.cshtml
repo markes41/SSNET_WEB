@@ -42,11 +42,16 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="#myModal" data-original-title="Agregar Nuevo Producto" data-toggle="modal" data-target="#myModal">
+                            <i class="fas fa-plus" style="margin-right: 5px; color: #fff;"></i>Nuevo Producto
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" rel="tooltip" title="" data-placement="bottom" href="/Main/Carrito" data-original-title="Carrito de Compras">
                             <i class="fas fa-shopping-cart" style="margin-right: 5px; color: #fff;"></i>Carrito
                         </a>
                     </li>
-                    <li class="active dropdown nav-item">
+                    <li class="dropdown nav-item">
                         <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                             <i class="material-icons">account_circle</i> Mi Cuenta
                         </a>
@@ -54,7 +59,7 @@
                             <a href="./index.html" class="dropdown-item">
                                 <i class="fas fa-user-circle" style="margin-right: 12px; color: #808080;"></i> Mi Perfil
                             </a>
-                            <a href="https://demos.creative-tim.com/material-kit/docs/2.0/getting-started/introduction.html" class="dropdown-item">
+                            <a href="/Login/Logout" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt" style="margin-right: 12px; color: #808080;"></i> Cerrar Sessión
                             </a>
                         </div>
@@ -70,6 +75,28 @@
             </div>
         </div>
     </div>
+
+    <!--Inicio Agregar Productos-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar nuevo Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.Partial("~/Views/Main/Partial/AgregarProductoPartial.cshtml", new Productos())
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="AgregarProducto()" class="btn btn-link">Agregar</button>
+                    <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Fin Agregar Productos-->
 
     <!--   Core JS Files   -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -105,6 +132,11 @@
                 }, 1000);
             }
         }
+
+        function AgregarProducto() {
+            $('.form-product').submit();
+        }
+        
     </script>
 </body>
 </html>

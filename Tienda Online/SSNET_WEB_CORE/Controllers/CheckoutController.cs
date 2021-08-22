@@ -5,6 +5,9 @@ using MercadoPago.Resource;
 using MercadoPago.Resource.Payment;
 using MercadoPago.Resource.PaymentMethod;
 using Microsoft.AspNetCore.Mvc;
+using SSNET_DataModel.Manager.Common;
+using SSNET_DataModel.Models;
+using SSNET_DataModel.Models.Comercio;
 using SSNET_WEB_CORE.Models;
 using System;
 using System.Collections.Generic;
@@ -15,13 +18,19 @@ namespace SSNET_WEB_CORE.Controllers
 {
     public class CheckoutController : Controller
     {
-        public IActionResult Index()
+        private Compras_Manager mg = new Compras_Manager(ProxyCreationEnabled: false);
+        private readonly SessionHelper _session;
+        private Usuarios User = new Usuarios();
+        public CheckoutController(SessionHelper session)
         {
-            return View();
+            _session = session;
+            User = _session.GetUsuario();
         }
-        
         public IActionResult Pagar()
         {
+            decimal TotalPagar = 0m;
+            User.Productos_Carrito.ForEach(m => TotalPagar += m.Precio * m.Cantidad);
+            ViewBag.Total = TotalPagar.ToString();
             return View();
         }
 
@@ -29,7 +38,6 @@ namespace SSNET_WEB_CORE.Controllers
         public JsonResult ProcesarPago(PaymentViewModel payment_receive)
         {
             var Banco_Id = new PaymentMethodClient().List().Where(m => m.Name == payment_receive.Banco_Emisor).Select(m => m.Id).FirstOrDefault();
-            var test = new PaymentMethodClient().List();
             var paymentRequest = new PaymentCreateRequest
             {
                 TransactionAmount = payment_receive.TransactionAmount,
@@ -49,6 +57,9 @@ namespace SSNET_WEB_CORE.Controllers
             };
             var Payment = new PaymentClient().Create(paymentRequest);
             return Json(Payment);
+            //if (Payment.Status == "approved")
+            //    mg.Save(new Compras() { Comprador_Id = User.});
+            
         }
     }
 }
